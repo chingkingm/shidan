@@ -36,8 +36,30 @@ def load_config():
 
 
 async def get_data(qid, name):
+    headers = CaseInsensitiveDict()
+    headers = {
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "cache-control": "no-cache",
+        "cookie": "remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6Ik1DUUZ0cWFQY3hIRTNRNFlodE4vd2c9PSIsInZhbHVlIjoidS9SZEJIbm1Rdkl0c3FOM0pjbjVNbWtTb21LTmoxMGpxdlVlbCtUMUZpc0ZtS0F2YlQ1SHhObktmL2dGTUowQTFIUVptanV1QTJrZVFZcHF2SXhrT25MV2NUdTlOUE1OMXdWdDlOU0hEbHlqWlA3UEFUZEJXaGUyR1pQdFFPc2trTDZ6WXVZSmdSdGhnV3hrelhQY1FRPT0iLCJtYWMiOiI1Y2RmNTY2NDYyYTY2MzYxNzA2NTEzNmE4MWFmZjYwNzI0MGJiYzgyYzA5NmY3MDYwNzgyMmQ1NmU2MTc2MjEwIn0%3D; name=eyJpdiI6Imd0Y1N2Z25tK2kxcVF0eGhiREEyR1E9PSIsInZhbHVlIjoiN0w1MHVrOUFmWTFUNDQ3eGhyMGxZRTFmVjZOdndpYWJIZjljeUJiN0RhWDZ3K0JMTVZMUXZuVzcxN2dlbGpZWFEweFJVWGNjclJ4NVIyL2poTUJIa1E9PSIsIm1hYyI6IjIyNGM4YjhiNjM5ZWY4YTk2NzliZTFmODI1MTJlZmIxMDYzMjQ5MWU0NjkxMDFmNDQ2OWVkMzk1NzllZjg0MjkifQ%3D%3D; _session=V5ljDrhhFwDyqWTj5h4p2fCy3Yrd5YOClwrQQITH; notification=eyJpdiI6IjQ0T2dCbXBvcU1UK25rUUwxbm1Ecnc9PSIsInZhbHVlIjoiY0hmaVV5TmVMM0pEZit2VldxOWFxVkVxMHlxRDhRbmFVZUR5VG1rT3pBSzJpU0laL09OVkRCSkk4M2RaWVdtdSIsIm1hYyI6ImI2Y2FlYjczMGIwNDdlMWUyYjg5NGNlMTBmZWIyZTJlYmZiODBmYjE2ZTdlMWY4MTcwZmVlZTUzNzUwZjhlMjUifQ%3D%3D; XSRF-TOKEN=eyJpdiI6ImtsUmxoR3Nqd0xjWVlRN201S0dUZXc9PSIsInZhbHVlIjoiV2RZeVFqZFo1RFl3anVScm5OSmJmSUlmWGh4eGdlcW00VWk2bElwQ1pYRmFlM3RoeVFVUTE0OElucUVOY2ltdzZLU09saGQ1Wi9Ib2FrRzZKKzM4dnQvYjNvVkRrTTRyRWpOajRZSzlCV2MxbjBmWHRNSjdNQUJtbG16Q1ZmdTQiLCJtYWMiOiJkZDUzYTU4ZTY3OTFlY2FjMjk1OTcxOTIxMDVmNjQ1MjlkMGZhYWRlNzlkMjc0YTliNDY4YWQzOTc3YWZkYzgxIn0%3D; windowWidth=eyJpdiI6Inp3QnFTUWhOSEtTMXdaY3B5RktRaWc9PSIsInZhbHVlIjoib3gxZnYwNlA4L0hjNnpnVFYxcVN6UVVqbVc0YUk3TjVXY1c5V1krd3NTN254aVBUN21YVGtRcXJMNFRXZDBsNCIsIm1hYyI6ImM0Mjc4YTQyYzljNTI2NGRkNDFmZGIwM2U5NmNhMmIwZDFkMjA2ZmEzMzkxMzcxOWNiMDA4YmZkNzczOGJiNzgifQ%3D%3D",
+        "pragma": "no-cache",
+        # 'sec-ch-ua': " Not A;Brand";v="99", "Chromium";v="96", "Microsoft Edge";v="96",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Windows",
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.57",
+    }
+    proxies = {
+        'http':'http://127.0.0.1:7890',
+        'https':'http://127.0.0.1:7890',
+    }
     curl = "https://shindanmaker.com/790697"
-    r = await requests.get(url=curl)
+    r = await requests.get(url=curl,headers=headers)
     _session = r.cookies["_session"]
     bs = BeautifulSoup(await r.content, "lxml")
     _token = bs.find("input", {"name": "_token"})["value"]
